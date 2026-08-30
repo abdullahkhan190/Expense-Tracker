@@ -1,6 +1,6 @@
 async function updateTable() {
     document.getElementById("expense-list").innerHTML = "";
-    const data = await fetch('http://localhost:3000/');
+    const data = await fetch('https://expense-tracker-9eiw.onrender.com/');
     const expenses = await data.json();
     expenses.forEach(expense => {
         // Create a new row for each expense but use  an unordered list
@@ -22,7 +22,7 @@ document.getElementById("expense-form").addEventListener("submit", async functio
     let date = document.getElementById("expense-date").value;
     document.getElementById("expense-form").style.display = "none";
 
-    await fetch('http://localhost:3000/add-expense', {
+    await fetch('https://expense-tracker-9eiw.onrender.com/add-expense', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
