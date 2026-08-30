@@ -7,19 +7,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Expense Tracker</h1>
-    <ul id="expense-list">
-        <!-- Expense items will be dynamically added here -->
+    <div class="app-shell">
+        <h1>Expense Tracker</h1>
+        <ul id="expense-list">
+            <!-- Expense items will be dynamically added here -->
+        </ul>
+        <button id="add-expense-btn">Add Expense</button>
 
-    </ul>
-    <button id="add-expense-btn">Add Expense</button>
-
-    <form id="expense-form" style="display: none;">
-        <input type="text" id="expense-name" placeholder="Expense Name" required>
-        <input type="number" id="expense-amount" placeholder="Amount" required>
-        <input type="date" id="expense-date" required>
-        <button type="submit">Submit</button>
-    </form>
+        <form id="expense-form" style="display: none;">
+            <input type="text" id="expense-name" placeholder="Expense Name" required>
+            <input type="number" id="expense-amount" placeholder="Amount" required>
+            <input type="date" id="expense-date" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 </body>
 <script src="script.js"></script>
 </html>
