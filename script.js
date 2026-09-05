@@ -5,6 +5,9 @@ async function updateTable() {
     expenses.forEach(expense => {
         // Create a new row for each expense but use  an unordered list
         let listItem = document.createElement("li");
+        // Format the date to a more readable format
+        let date = new Date(expense.date);
+        expense.date = date.toLocaleDateString();
         listItem.textContent = `${expense.name}: $${expense.amount.toFixed(2)} on ${expense.date}`;        
         document.getElementById("expense-list").appendChild(listItem);
     });
