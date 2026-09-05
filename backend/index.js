@@ -30,14 +30,10 @@ const server = http.createServer((req, res) => {
         if (req.method === 'GET' && req.url === '/') {
             res.writeHead(200, { 'Content-Type': 'application/json' });
             // Fetch expenses from the database
-            Expense.find({}, (err, expenses) => {
-                if (err) {
-                    console.error('Error fetching expenses:', err);
-                    res.writeHead(500, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ error: 'Internal Server Error' }));
-                    return;
-                }
-                res.writeHead(200, { 'Content-Type': 'application/json' });
+            //MongooseError: Model.find() no longer accepts a callback              
+
+
+            Expense.find().then(expenses => {
                 res.end(JSON.stringify(expenses));
             });
         }
