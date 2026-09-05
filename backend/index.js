@@ -42,15 +42,9 @@ const server = http.createServer((req, res) => {
             // Create a new expense document
             const expense = new Expense(newExpense);
             // Save the expense to the database
-            expense.save((err, savedExpense) => {
-                if (err) {
-                    console.error('Error adding expense:', err);
-                    res.writeHead(500, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ error: 'Internal Server Error' }));
-                    return;
-                }
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: 'Expense added successfully', expense: savedExpense }));
+            expense.save().then(() => {
+                res.writeHead(201, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ message: 'Expense added successfully' }));
             });
         }
     });
