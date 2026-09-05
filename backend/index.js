@@ -1,10 +1,16 @@
 const http = require('http');
+const mongoose = require('mongoose');
 
-let dummyData = [
-    { id: 1, name: "Groceries", amount: 50.00, date: "2023-10-01" },
-    { id: 2, name: "Gas", amount: 30.00, date: "2023-10-02" },
-    { id: 3, name: "Dinner", amount: 40.00, date: "2023-10-03" }
-];
+mongoose.connect(process.env.MONGODB_URI);
+// Define a simple schema for expenses
+const expenseSchema = new mongoose.Schema({
+    id: Number,
+    name: String,
+    amount: Number,
+    date: Date
+});
+
+const Expense = mongoose.model('Expense', expenseSchema);
 
 const server = http.createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -23,14 +29,33 @@ const server = http.createServer((req, res) => {
         
         if (req.method === 'GET' && req.url === '/') {
             res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify(dummyData));
+            // Fetch expenses from the database
+            Expense.find({}, (err, expenses) => {
+                if (err) {
+                    console.error('Error fetching expenses:', err);
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Internal Server Error' }));
+                    return;
+                }
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(expenses));
+            });
         }
         if (req.method === 'POST' && req.url === '/add-expense') {
             let newExpense = JSON.parse(body);
-            newExpense.id = dummyData.length + 1;
-            dummyData.push(newExpense);
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ message: 'Expense added successfully', expense: newExpense }));
+            // Create a new expense document
+            const expense = new Expense(newExpense);
+            // Save the expense to the database
+            expense.save((err, savedExpense) => {
+                if (err) {
+                    console.error('Error adding expense:', err);
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Internal Server Error' }));
+                    return;
+                }
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ message: 'Expense added successfully', expense: savedExpense }));
+            });
         }
     });
 });
