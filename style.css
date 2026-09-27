@@ -27,7 +27,8 @@ body {
   color: var(--text);
   background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 body::before,
@@ -162,6 +163,8 @@ body > * {
 
 .app-shell {
   width: min(100%, 700px);
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
   background: var(--card);
   border: 1px solid rgba(255, 255, 255, 0.7);
   border-radius: 28px;
