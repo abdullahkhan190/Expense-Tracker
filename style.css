@@ -110,11 +110,11 @@ button:hover {
   width: 100%;
   padding: 15px 18px;
   border-radius: 14px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  background: green;
   color: #fff;
   font-weight: 700;
   letter-spacing: 0.02em;
-  box-shadow: 0 14px 28px rgba(103, 87, 244, 0.28);
+  box-shadow: 0 14px 28px rgba(5, 236, 43, 0.28);
 }
 
 #expense-form {
