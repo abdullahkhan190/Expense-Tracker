@@ -1,8 +1,22 @@
+let searchTerm = "";
+let latestTableRequest = 0;
+let expenses = [];
+
+async function fetchExpenses() {
+    const response = await fetch('https://expense-tracker-9eiw.onrender.com/');
+    expenses = await response.json();
+    updateTable();
+}
+
 async function updateTable() {
+    const requestId = ++latestTableRequest;
+    if (requestId !== latestTableRequest) return;
+
     document.getElementById("expense-list").innerHTML = "";
-    const data = await fetch('https://expense-tracker-9eiw.onrender.com/');
-    const expenses = await data.json();
-    expenses.forEach(expense => {
+    const visibleExpenses = searchTerm
+        ? expenses.filter(expense => expense.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        : expenses;
+    visibleExpenses.forEach(expense => {
         // Create a new row for each expense but use  an unordered list
         let listItem = document.createElement("li");
         // Format the date to a more readable format
@@ -32,7 +46,14 @@ document.getElementById("expense-form").addEventListener("submit", async functio
         },
         body: JSON.stringify({ name, amount, date })
     });
-    updateTable();
+    fetchExpenses(); // Refresh the expenses list after adding a new expense
 });
 
-updateTable();
+document.getElementById("search-input").addEventListener("input", async function() {
+    searchTerm = this.value;
+    console.log("searchTerm ", searchTerm);
+    updateTable();
+    
+});
+
+fetchExpenses();
